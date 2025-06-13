@@ -1,0 +1,548 @@
+---
+#title: "กราฟและความสัมพันธ์เชิงเส้น"
+#sidebar: false
+format:
+  html:
+    theme: materia
+    page-layout: full
+    include-in-header: 
+      - text: |
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
+      
+---
+
+<style>
+            body {
+              font-family: 'Sarabun', sans-serif;
+              font-size: 1.5em
+            }
+
+            h1 {
+              font-family: 'Sarabun', sans-serif;
+            }
+            .narrative {
+  font-family: 'Sarabun', sans-serif !important;
+}
+            
+          </style>
+
+<style>
+  .progress-fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 20px; /* กำหนดความสูง progress bar */
+    z-index: 1050; /* ให้ลอยอยู่เหนือทุกอย่าง */
+  }
+  body {
+    padding-bottom: 28px; /* เผื่อพื้นที่ progress bar ด้านล่าง */
+  }
+</style>
+
+<style>
+  .my-center-table {
+    width: 60%;
+    border-collapse: collapse;
+    margin: auto;
+  }
+  .my-center-table th,
+  .my-center-table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 8px;
+  }
+  .my-center-table select {
+    margin: auto;
+    display: block;
+    width: auto;
+    min-width: 0;
+  }
+</style>
+
+<div class="progress progress-fixed-bottom">
+  <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; font-weight:bold;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    0%
+  </div>
+</div>
+
+# แบบทดสอบเรื่องการหาค่าความจริงของประพจน์ (32 คะแนน)
+
+<form id="myForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdW5JYkues0DlODo6PX6ijDPRhygpEvOF7B8iagcJmLeucqQg/formResponse" method="post" target="hidden_iframe">
+
+<!--ปุ่มที่ถูกซ่อน กรอกเวลาเข้าอัตโนมัติ-->
+<input type="hidden" name="entry.2055556504" id="entry-timein">
+
+รหัสนักเรียน <input
+    style="flex:0 2 70px; min-width:0; max-width:200px; width:130px; display:inline-block;"
+    class="form-control"
+    name="entry.692075133"
+    placeholder="เช่น 023143"
+    type="text"
+    id="q3"
+    required> 
+    
+ม.$4$ ห้อง <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.122799789"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="DA">DA</option>
+    <option value="FC, AE, MS, SE">FC, AE, MS, SE</option>
+    <option value="MD, GM">MD, GM</option>
+    <option value="IM">IM</option>
+  </select>
+
+ชื่อ - นามสกุล (ภาษาไทย) <div style="display: flex; gap: 0.1rem;">
+  <input
+    style="flex:0 2 70px; min-width:0; max-width:300px; width:300px; display:inline-block;"
+    class="form-control"
+    name="entry.614874923"
+    placeholder="ชื่อ (ไม่ต้องมีคำนำหน้าชื่อ)"
+    type="text"
+    id="q6"
+    required>
+  <input
+    style="flex:0 2 70px; min-width:0; max-width:300px; width:300px; display:inline-block;"
+    class="form-control"
+    name="entry.1214605800"
+    placeholder="นามสกุล"
+    type="text"
+    id="q7"
+    required>
+</div>
+
+Email: <input
+    style="flex:0 2 70px; min-width:0; max-width:300px; width:300px; display:inline-block;"
+    class="form-control"
+    name="entry.1822866670"
+    placeholder="เช่น email@gmail.com"
+    type="email"
+    required>
+
+<div style="color: red; font-size: 0.6em;">
+  * ให้นักเรียนจำ email ที่กรอกตรงนี้ด้วย เพราะต้องใช้ตรวจสอบสถานะการส่งแบบทดสอบของตนเอง
+</div>
+
+---
+
+1.  จงเติมตารางค่าความจริงที่กำหนดให้สมบูรณ์
+
+<!--<table style="width:60%; border-collapse: collapse; margin: auto;">-->
+<table class="my-center-table">
+  <thead>
+    <tr style="border-top: 2px solid black; border-bottom: 2px solid black;">
+      <th>$p$</th>
+      <th>$q$</th>
+      <th>$p\land q$</th>
+      <th>$p\rightarrow q$</th>
+      <th>$p\leftrightarrow q$</th>
+      <th>$p\lor q$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$F$</td>
+      <td>$T$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.643473009"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1854454301"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.746881656"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1602778189"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr>
+      <td>$F$</td>
+      <td>$F$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1490083489"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.399140487"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.18640661"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.2092527630"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr>
+      <td>$T$</td>
+      <td>$F$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.453771103"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.491093209"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1414411909"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.2119858541"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr style="border-bottom: 2px solid black;">
+      <td>$T$</td>
+      <td>$T$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.992132873"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.652253765"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.300399737"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.486797859"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- ข้อความอยู่ตรงกลาง -->
+<div style="text-align: center; margin: 1em 0;">
+  --- ยังมีต่อนะ ---
+</div>
+
+<table class="my-center-table">
+  <thead>
+    <tr style="border-top: 2px solid black; border-bottom: 2px solid black;">
+      <th>$p$</th>
+      <th>$q$</th>
+      <th>$\sim q$</th>
+      <th>$p \rightarrow\sim q$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$F$</td>
+      <td>$T$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1618387347"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1213848157"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr>
+      <td>$F$</td>
+      <td>$F$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1613726104"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1254299077"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr>
+      <td>$T$</td>
+      <td>$F$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.890126404"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.44776959"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr style="border-bottom: 2px solid black;">
+      <td>$T$</td>
+      <td>$T$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.435333192"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.100224861"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+2.  กำหนดให้ $p,\ q,\ r$ และ $s$ เป็นประพจน์ จงหาค่าความจริงของประพจน์ที่กำหนดให้ต่อไปนี้ เมื่อ $p,\ q$ และ $r$ มีค่าความจริงเป็น **เท็จ** **จริง** และ**จริง** ตามลำดับ
+
+<table class="my-center-table">
+  <thead>
+    <tr style="border-top: 2px solid black; border-bottom: 2px solid black;">
+      <th>ประพจน์</th>
+      <th>ค่าความจริง</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$\sim r$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.492342074"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr>
+      <td>$q\rightarrow\sim r$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.177853220"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr>
+      <td>$p\lor \sim (q\rightarrow\sim r)$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1935458825"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr>
+      <td>$r\lor s$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.66340037"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+    <tr style="border-bottom: 2px solid black;">
+      <td>$\left[p\lor \sim (q\rightarrow\sim r)\right]\land(r\lor s)$</td>
+      <td><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.301768867"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">$T$</option>
+            <option value="F">$F$</option></select></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+3.  กำหนดให้ $p,\ q$ และ $r$ เป็นประพจน์ โดยที่ $\left[(q\rightarrow\sim r)\lor p\right]\rightarrow (p\land\sim p)$ มีค่าความจริงเป็น**จริง** จงหาความจริงของประพจน์ $p,\ q$ และ $r$
+
+:::: {layout="[0.05,0.7]"}
+
+::: {#1}
+**ตอบ**
+:::
+
+::: {#2}
+
+$p$ มีค่าความจริงเป็น<select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.990664415"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">จริง</option>
+            <option value="F">เท็จ</option></select> 
+
+$q$ มีค่าความจริงเป็น<select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1296619657"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">จริง</option>
+            <option value="F">เท็จ</option></select>
+
+และ $r$ มีค่าความจริงเป็น<select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1735901206"
+  required>
+            <option value="" disabled selected>-</option>
+            <option value="T">จริง</option>
+            <option value="F">เท็จ</option></select>
+
+:::
+
+::::
+
+---
+
+<div style="display: flex; justify-content: center; margin: 1em 0;">
+  <button class="btn btn-primary" type="submit">ส่งคำตอบ</button>
+</div>
+
+<!-- ซ่อนหน้านี้ เมื่อกดส่งแล้่ว-->
+</form>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+
+<div id="submit-message" style="display:none; color:blue; font-weight:bold; margin-top:1em;">
+  เราได้บันทึกคำตอบของคุณไว้แล้ว<br>
+  <br><br>
+  <!-- ปุ่มลิงก์ -->
+  <a href="index.qmd" style="display:inline-block; margin-right:1em; padding:0.5em 1em; background:#007bff; color:#fff; text-decoration:none; border-radius:5px;">กลับหน้าหลัก</a>
+</div>
+
+
+<script>
+  document.getElementById('myForm').onsubmit = function() {
+    document.getElementById('myForm').style.display = 'none';
+    document.getElementById('submit-message').style.display = 'block';
+    return true;
+  };
+</script>
+
+
+<!--ถ้าจะตั้งเวลาปิดรับฟอร์ม-->
+
+<!--
+
+
+<script>
+  // กำหนดเวลาปิดรับ (เช่น 2025-05-29 17:00:00 +07:00)
+  const closeTime = new Date("2025-06-28T13:00:00+07:00");
+
+  document.getElementById('myForm').onsubmit = function(e) {
+    const now = new Date();
+    if (now > closeTime) {
+      // ถ้าเลยเวลาปิดรับ
+      e.preventDefault(); // ไม่ให้ส่งฟอร์ม
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('submit-message').style.display = 'block';
+      document.getElementById('submit-message').innerHTML = "ขออภัย ฟอร์มนี้ปิดรับคำตอบแล้ว";
+      return false;
+    } else {
+      // ยังไม่หมดเวลา ส่งฟอร์มตามปกติ
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('submit-message').style.display = 'block';
+      // ข้อความที่แสดงหลังส่งฟอร์ม
+      document.getElementById('submit-message').innerHTML = "เราได้บันทึกคำตอบของคุณไว้แล้ว<br>
+      คุณสามารถกดย้อนกลับ แล้วเข้ามาที่เมนูเดิม <br>
+      เพื่อทบทวนและส่งคำตอบเพิ่มเติมได้ ";
+      return true;
+    }
+  };
+</script>
+-->
+
+
+
+
+
+<!-- progress bar-->
+<script>
+  // ระบุ id ของฟอร์ม
+  const form = document.getElementById('myForm');
+  // เลือก input และ select ทั้งหมดในฟอร์ม (ที่ต้องกรอก)
+  const requiredFields = form.querySelectorAll('input[required], select[required]');
+  const progressBar = document.getElementById('progress-bar');
+
+  function updateProgressBar() {
+    let filled = 0;
+    requiredFields.forEach(field => {
+      // สำหรับ select ให้เช็คว่า value ไม่ใช่ค่าว่าง
+      if (
+        (field.tagName === "SELECT" && field.value !== "" && field.value !== null) ||
+        (field.tagName === "INPUT" && field.value.trim() !== "")
+      ) {
+        filled += 1;
+      }
+    });
+    const percent = Math.round((filled / requiredFields.length) * 100);
+    progressBar.style.width = percent + "%";
+    progressBar.setAttribute('aria-valuenow', percent);
+    progressBar.textContent = percent + "%";
+    // เพิ่มสีเมื่อครบ 100%
+    if(percent === 100){
+      progressBar.classList.add("bg-success");
+    } else {
+      progressBar.classList.remove("bg-success");
+    }
+  }
+
+  // อัปเดต progress ทุกครั้งที่กรอกข้อมูล
+  requiredFields.forEach(field => {
+    field.addEventListener('input', updateProgressBar);
+    field.addEventListener('change', updateProgressBar);
+  });
+
+  // เรียกครั้งแรกเมื่อโหลดหน้า
+  updateProgressBar();
+</script>
+
+
+<!--เอาไว้ใช้เวลาอยากได้ว่าเริ่มทำกี่โมง-->
+<!--ใช้กับ input id="entry-timein"-->
+<!--อันนี้ format เวลาไม่ดี-->
+<!--
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  const now = new Date().toISOString();
+  document.getElementById('entry-timein').value = now;
+});
+</script>
+-->
+
+<!-- format time ตรง google sheet-->
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  const now = new Date();
+
+  // ดึงค่าแต่ละส่วน
+  const day = now.getDate();
+  const month = now.getMonth() + 1; // เดือนใน JS เริ่มที่ 0
+  const year = now.getFullYear();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  const second = now.getSeconds();
+
+  // เติม 0 ข้างหน้าถ้าจำเป็น
+  const pad = n => n.toString().padStart(2, '0');
+
+  // สร้าง string ในรูปแบบเดียวกับ Google Form
+  const formatted = `${pad(day)}/${pad(month)}/${year} ${pad(hour)}:${pad(minute)}:${pad(second)}`;
+
+  document.getElementById('entry-timein').value = formatted;
+});
+
+</script>

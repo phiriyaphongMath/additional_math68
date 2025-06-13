@@ -1,0 +1,124 @@
+---
+title: "quiz truth value"
+format: html
+---
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<h3>คำถาม: จงเขียนเศษส่วนของ 1 ส่วน 2</h3>
+
+<form id="mathForm">
+  <label for="answer">คำตอบ (ใช้ LaTeX):</label>
+  <input type="text" id="answer" oninput="updatePreview()" placeholder="เช่น \frac{1}{2}">
+  <div id="preview" style="font-size: 1.5em; margin: 10px 0;"></div>
+
+    <strong>แทรกสูตรสำเร็จ:</strong>
+    <button type="button" onclick="insertLatex('+')">+</button>
+    <button type="button" onclick="insertLatex('-')">-</button>
+    <button type="button" onclick="insertLatex('\\times')">×</button>
+    <button type="button" onclick="insertLatex('\\div')">/</button>
+    <button type="button" onclick="insertLatex('\\frac{a}{b}')">เศษส่วน</button>
+    <button type="button" onclick="insertLatex('a^{b}')">ยกกำลัง</button>
+    <button type="button" onclick="insertLatex('\\sqrt{a}')">รากที่สอง</button>
+    <button type="button" onclick="insertLatex('\\pi')">π</button>
+   
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(kableExtra)
+
+truth_table = data.frame(p = c(T,T,F,F),
+q = c(T,F,T,F))
+truth_table|>
+mutate(p_and_q =p&q,
+p_or_q = p|q,
+p_then_q = !p|q,
+p_iff_q = (!p|q)&(!q|p))|>
+pivot_longer(everything(),names_to="name",values_to = "val")|>
+mutate(val = val|> as.character())|>
+mutate(val = str_replace(val, "TRUE", "T"),
+val = str_replace(val, "FALSE", "F")
+)|>
+pivot_wider(names_from = name,values_from = val)|>
+  unnest()|>
+  kable(align="c")|>
+  column_spec(1:2, width = "30pt")|>
+  column_spec(1:2, width = "50pt")
+  
+```
+
+
+```{r}
+
+truth_table_t = truth_table|>
+mutate(p_and_q =p&q,
+p_or_q = p|q,
+p_then_q = !p|q,
+p_iff_q = (!p|q)&(!q|p))|>
+pivot_longer(everything(),names_to="name",values_to = "val")|>
+mutate(val = val|> as.character())|>
+mutate(val = str_replace(val, "TRUE", "T"),
+val = str_replace(val, "FALSE", "F")
+)|>
+pivot_wider(names_from = name,values_from = val)|>
+  unnest()|>
+  as.data.frame()
+
+
+```
+
+
+<table border="1" style="width:100%"> <tr> <th>p</th> <th>q</th> <th>p ∧ q</th> <th>คำตอบ (จริง/เท็จ)</th> </tr> <tr> <td>จริง</td> <td>จริง</td> <td>จริง</td> <td><input type="text" name="ans1" placeholder="กรอกคำตอบ"></td> </tr> <tr> <td>จริง</td> <td>เท็จ</td> <td>เท็จ</td> <td><input type="text" name="ans2" placeholder="กรอกคำตอบ"></td> </tr> </table> 
+
+
+<table style="width:100%">
+  <tr>
+    <th>$p$</th>
+    <th>$q$</th>
+    <th>$p \land q$</th>
+    <th>คำตอบ (จริง/เท็จ)</th>
+  </tr>
+  <tr>
+    <td>จริง</td>
+    <td>จริง</td>
+    <td>จริง</td>
+    <td><input type="text" name="ans1" placeholder="กรอกคำตอบ"></td>
+  </tr>
+  <tr>
+    <td>จริง</td>
+    <td>เท็จ</td>
+    <td>เท็จ</td>
+    <td><input type="text" name="ans2" placeholder="กรอกคำตอบ"></td>
+  </tr>
+</table>
+
+
+  <button type="button" onclick="submitForm()">ส่งคำตอบ</button>
+</form>
+
+<script>
+function updatePreview() {
+  const latex = document.getElementById('answer').value;
+  document.getElementById('preview').innerHTML = `$$${latex}$$`;
+  MathJax.typeset();
+}
+
+function insertLatex(code) {
+  const input = document.getElementById('answer');
+  input.focus();
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  input.value = input.value.substring(0, start) + code + input.value.substring(end);
+  input.selectionStart = input.selectionEnd = start + code.length;
+  updatePreview();
+}
+
+function submitForm() {
+  const latex = document.getElementById('answer').value;
+  alert(`คำตอบของคุณคือ:\n${latex}\n\n(ในระบบจริง คุณจะส่งข้อมูลนี้ไปยังเซิร์ฟเวอร์)`);
+  // ในระบบจริง คุณอาจส่งข้อมูลไปยังเซิร์ฟเวอร์ด้วย AJAX หรืออื่น ๆ
+}
+</script>
