@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>คณิตศาสตร์เพิ่มเติม(1) ค31215 – Mathematics MiniQuiz</title>
+<title>quiz_logic_key – Mathematics MiniQuiz</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1816b08a694856304430c02469be1868.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,8 +68,38 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="mystyle.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -90,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -105,66 +135,164 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#ตรรกศาสตร" id="toc-ตรรกศาสตร" class="nav-link active" data-scroll-target="#ตรรกศาสตร">ตรรกศาสตร์</a></li>
-  </ul>
-</nav>
-    </div>
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="quiz_logic_key.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="quiz_logic_key.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">คณิตศาสตร์เพิ่มเติม(1) ค31215</h1>
-</div>
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
+<section id="import-library" class="level1">
+<h1>import library</h1>
 
-
-</header>
-
-
-<section id="ตรรกศาสตร" class="level1">
-<h1>ตรรกศาสตร์</h1>
-<table class="caption-top table">
+</section>
+<section id="แบบทดสอบเรองการหาคาความจรงของประพจน-คำตอบนกเรยน" class="level1">
+<h1>แบบทดสอบเรื่องการหาค่าความจริงของประพจน์ (คำตอบนักเรียน)</h1>
+<p>รหัสนักเรียน <strong>019999</strong> ชื่อ <strong>พิริยพงศ์</strong> นามสกุล <strong>หริ่งรอด</strong> เลขที่ <strong>123</strong></p>
+<hr>
+<ol type="1">
+<li>จงเติมตารางค่าความจริงที่กำหนดให้สมบูรณ์</li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 31%">
+<col style="width: 14%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: center;">ครั้งที่</th>
-<th style="text-align: left;">เรื่อง</th>
-<th style="text-align: center;">ลิงก์ข้อสอบ</th>
-<th style="text-align: center;">ตรวจสอบสถานะการส่งแบบทดสอบ</th>
+<th style="text-align: left;"><span class="math inline">\(p\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(q\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(p\land q\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(p\rightarrow q\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(p\leftrightarrow q\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(p\lor q\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: left;">การหาค่าความจริงของประพจน์</td>
-<td style="text-align: center;"><a href="./quiz_logic.html">📖 คลิกเพื่อเข้าทำ quiz</a></td>
-<td style="text-align: center;"><a href="https://script.google.com/macros/s/AKfycbwqqoGTBz52VrgJSFP8iDkJOUaFnheO9nyLm1FaJrKZ71wGtNvm1GwPuPkqIh3p6Oz2/exec">👉 คลิกเพื่อดู</a></td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: left;">การสมมูลของประพจน์</td>
-<td style="text-align: center;"><span onclick="alert('อดทนรอกันอีกสักนิดนะครับ 🤭')">🧾</span></td>
-<td style="text-align: center;"><span onclick="alert('ยังไม่มีบริการ')">❓</span></td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="cell" data-tbl-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(p\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(q\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(\sim q\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(p\rightarrow\sim q\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ✅</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+<td style="text-align: left;"><span class="math inline">\(T\)</span> ❌</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="2" type="1">
+<li>กำหนดให้ <span class="math inline">\(p,\ q,\ r\)</span> และ <span class="math inline">\(s\)</span> เป็นประพจน์ จงหาค่าความจริงของประพจน์ที่กำหนดให้ต่อไปนี้ เมื่อ <span class="math inline">\(p,\ q,\)</span> และ <span class="math inline">\(r\)</span> มีค่าความจริงเป็น <strong>เท็จ จริง</strong> และ<strong>จริง</strong> ตามลำดับ</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>ประพจน์</strong></th>
+<th style="text-align: center;"><strong>ค่าความจริง</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\sim r\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(T\)</span> ❌</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(q\rightarrow\sim r\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(T\)</span> ❌</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p\lor\sim(q\rightarrow\sim r)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(T\)</span> ✅</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(r\lor s\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(T\)</span> ✅</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\([p\lor\sim(q\rightarrow\sim r)]\land(r\lor s)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(T\)</span> ✅</td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<ol start="3" type="1">
+<li>กำหนดให้ <span class="math inline">\(p,\ q\)</span> และ <span class="math inline">\(r\)</span> เป็นประพจน์ โดยที่ <span class="math inline">\([(q\rightarrow\sim r)\lor p] \rightarrow (p\land\sim p)\)</span> มีค่าความจริงเป็น<strong>จริง</strong> จงหาค่าความจริงของประพจน์ <span class="math inline">\(p,\ q\)</span> และ <span class="math inline">\(r\)</span></li>
+</ol>
+<hr>
 
 
 </section>

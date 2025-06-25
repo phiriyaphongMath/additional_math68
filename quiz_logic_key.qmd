@@ -1,0 +1,409 @@
+---
+#title: "อัตราส่วน สัดส่วน และร้อยละ (อัตราส่วน)"
+#author: "พิริยพงศ์ หริ่งรอด"
+#date: today
+date-format: "DD MMMM YYYY"
+format:
+  html:
+    theme: cosmo
+    page-layout: full
+    toc: false
+    toc-depth: 4
+    css: mystyle.css
+  pdf:
+    include-in-header: "thai-preamble.tex"
+    geometry:
+      - top= 1.0in
+      - left= 1.0in
+      - right = 1.0in
+      - bottom = 1.0in
+      - heightrounded
+    papersize: A4
+    linestretch: 1
+    css: mystyle.css
+    engine: xelatex
+    toc: false
+  typst:
+    documentclass: article
+    toc: false
+    papersize: a4
+#    section-numbering: 1.1.a
+    columns: 1
+    margin:
+        top: 1.0in
+        bottom: 1.0in
+        left: 1.0in
+        right: 1.0in
+    mainfont: "TH Sarabun New"
+    fontsize: 16pt
+    number-sections: false 
+crossref:
+#  fig-title: Fig     # (default is "Figure")
+#  tbl-title: Tbl     # (default is "Table")
+  title-delim: "-"   # (default is ":”)
+params:
+  stu_id_params: "019999"
+---
+
+```{=typst}
+#show math.equation: set text(12pt)
+#set text(lang: "th",
+stretch:150%,
+region: "TH",
+script: "tha")
+
+#show heading.where(level: 1): it => {
+  align(center)[#it.body]
+}
+
+#set table(
+  stroke: (bottom: 1pt + black)
+)
+```
+::: {.content-visible when-format="html"}
+# import library
+
+```{r}
+#| include: false
+#| echo: false
+#| warning: false
+
+library(googlesheets4)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(readxl)
+library(tidyr)
+library(kableExtra)
+```
+:::
+
+```{r}
+#| include: false
+#| echo: false
+#| warning: false
+#| output: false
+
+# ใช้ base R
+current_date <- Sys.Date()
+# หรือใช้ lubridate เพื่อความยืดหยุ่น
+library(lubridate)
+
+# แปลงเป็นข้อความภาษาไทย (ต้องไม่มี locale ไทยก็ใช้ได้ แต่ถ้าให้ถูกต้องควรตั้ง locale)
+# ตัวอย่างนี้ใช้ base R โดยไม่ต้องตั้ง locale
+thai_weekday <- c("อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์")
+thai_month <- c("มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+               "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม")
+
+# ดึงวัน เดือน ปี และวันในสัปดาห์
+day <- as.integer(format(current_date, "%d"))
+month <- as.integer(format(current_date, "%m"))
+year <- as.integer(format(current_date, "%Y")) + 543 # เป็น พ.ศ.
+weekday <- as.integer(format(current_date, "%w")) + 1 # R วันอาทิตย์=0, เราเริ่มที่ 1
+
+thai_date <- paste0("วัน", thai_weekday[weekday], "ที่ ", day, " ", thai_month[month], " ", year)
+thai_date
+
+
+current_time <- format(Sys.time(), "%H:%M:%S")
+thai_time <- paste0(current_time, " น.")
+thai_time
+
+```
+
+```{r}
+#| include: false
+#| echo: false
+#| warning: false
+
+dat = read_sheet("https://docs.google.com/spreadsheets/d/1eDEuH7V-ZR-H5DBs9fQrMzB8S2ddo3T6qzVInL6_E-k/edit?gid=1111622165#gid=1111622165", sheet = "quiz1")
+
+dat
+
+names(dat)[1]="major"
+names(dat)[2]="no"
+names(dat)[6]="stu_id"
+names(dat)[8]="name"
+names(dat)[9]="lname"
+names(dat)[11]="status"
+
+#dat|>
+#  mutate(check = ifelse(status=="ยังไม่ได้ทำ",1,0))|>
+#  select(major,no,stu_id,name,status,score,check)|>
+#  filter(check==1)|>
+#  unnest()
+```
+
+```{r}
+#| include: false
+#| echo: false
+#| warning: false
+
+
+dat |>
+  filter(stu_id==params$stu_id_params)
+
+dat_stu = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(stu_id)|> pull()
+
+dat_name = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(name)|> pull()
+
+dat_lname = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(lname)|> pull()
+
+dat_no = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(no)|> pull()
+
+dat_score = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(score)|> pull()
+
+```
+
+```{=typst}
+#align(right,
+rect(grid(
+columns: 1,
+row-gutter: 10pt,
+text(size: 22pt, align(right)[*`r dat_score `* คะแนน]),
+text(size: 16pt ,align(right)[จาก $32$ คะแนน])
+)
+)
+)
+```
+# แบบทดสอบเรื่องการหาค่าความจริงของประพจน์ (คำตอบนักเรียน)
+
+รหัสนักเรียน **`r dat_stu`** ชื่อ **`r dat_name`** นามสกุล **`r dat_lname`** เลขที่ **`r dat_no`**
+
+------------------------------------------------------------------------
+
+1.  จงเติมตารางค่าความจริงที่กำหนดให้สมบูรณ์
+
+```{r}
+#| include: false
+#| echo: false
+#| warning: false
+
+key = read_excel('/Users/pahphrame/Library/CloudStorage/OneDrive-ChulalongkornUniversity/ปีการศึกษา 2568/เทอม 1/4 เพิ่มเติม/quiz/key_quiz_1.xlsx')
+
+key
+
+dat_show1 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(1:16)|>
+  pull()|>
+  matrix(nrow = 4,byrow = T)
+
+dat_show2 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(17:24)|>
+  pull()|>
+  matrix(nrow = 4,byrow = T)
+
+ dat_q1 = data.frame(x=c("$F$","$T$","$F$","$F$","$T$","$F$","$T$","$T$"))|>
+   select(x)|>
+   pull()|>
+   matrix(nrow = 4,byrow = T)
+
+ col_names=c("$p$","$q$",
+             "$p\\land q$",
+             "$p\\rightarrow q$",
+             "$p\\leftrightarrow q$",
+             "$p\\lor q$")
+ 
+
+ 
+
+```
+
+```{r}
+#| include: true
+#| echo: false
+#| warning: false
+
+
+col_names2=c("$p$","$q$",
+             "$\\sim q$",
+             "$p\\rightarrow\\sim q$")
+
+ cbind(dat_q1,dat_show1)|>
+  kable(col.names = col_names)
+```
+
+```{=typst}
+#align(center)[ยังมีต่อนะ]
+```
+```{r}
+#| include: true
+#| echo: false
+#| warning: false
+#| tbl-align: center
+
+
+ cbind(dat_q1,dat_show2)|>
+  kable(col.names = col_names2)
+```
+
+2.  กำหนดให้ $p,\ q,\ r$ และ $s$ เป็นประพจน์ จงหาค่าความจริงของประพจน์ที่กำหนดให้ต่อไปนี้ เมื่อ $p,\ q,$ และ $r$ มีค่าความจริงเป็น **เท็จ จริง** และ**จริง** ตามลำดับ
+
+```{r}
+#| include: false
+#| echo: false
+#| warning: false
+
+show25 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(25)|>
+  pull()
+
+show26 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(26)|>
+  pull()
+
+show27 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(27)|>
+  pull()
+
+show28 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(28)|>
+  pull()
+
+show29 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(29)|>
+  pull()
+
+show30 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(30)|>
+  mutate(show = str_replace(show,"$T$","จริง"),
+         show = str_replace(show,"$F$","เท็จ"))|>
+  pull()
+  
+  show31 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(31)|>
+  mutate(show = str_replace(show,"$T$","จริง"),
+         show = str_replace(show,"$F$","เท็จ"))|>
+  pull()
+  
+  show32 = dat|>
+  filter(stu_id==params$stu_id_params)|>
+  select(starts_with("1"),starts_with("2"),starts_with("3"))|>
+  pivot_longer(everything(),names_to = "no",values_to = "val")|>
+  mutate(val = paste0("$",val,"$"))|>
+  bind_cols(key)|>
+  mutate(key = paste0("$",key,"$"))|>
+  mutate(result = ifelse(val==key,"\U00002705","\U0000274C"))|>
+  mutate(show = paste0(val," ",result))|>
+  select(show)|>
+  slice(32)|>
+  mutate(show = str_replace(show,"$T$","จริง"),
+         show = str_replace(show,"$F$","เท็จ"))|>
+  pull()
+```
+
+|                   **ประพจน์**                    | **ค่าความจริง** |
+|:-----------------------------------------------:|:-------------:|
+|                    $\sim r$                     |  `r show25`   |
+|              $q\rightarrow\sim r$               |  `r show26`   |
+|         $p\lor\sim(q\rightarrow\sim r)$         |  `r show27`   |
+|                    $r\lor s$                    |  `r show28`   |
+| $[p\lor\sim(q\rightarrow\sim r)]\land(r\lor s)$ |  `r show29`   |
+
+{{< pagebreak >}}
+
+3.  กำหนดให้ $p,\ q$ และ $r$ เป็นประพจน์ โดยที่ $[(q\rightarrow\sim r)\lor p] \rightarrow (p\land\sim p)$ มีค่าความจริงเป็น**จริง** จงหาค่าความจริงของประพจน์ $p,\ q$ และ $r$
+
+```{=typst}
+#grid(
+  columns: (16pt,30pt,1fr),
+  row-gutter: 20pt,
+  align: left+bottom,
+  [],[*ตอบ*], [$p$ มีค่าความจริงเป็น `r show30`],
+  [],[],[$q$ มีค่าความจริงเป็น `r show31`],
+  [],[และ], [$r$ มีค่าความจริงเป็น `r show32`]
+)
+```
+
+------------------------------------------------------------------------
