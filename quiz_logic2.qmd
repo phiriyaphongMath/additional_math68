@@ -1,0 +1,806 @@
+---
+#title: "กราฟและความสัมพันธ์เชิงเส้น"
+#sidebar: false
+format:
+  html:
+    theme: materia
+    page-layout: full
+    self-contained: true
+    include-in-header: 
+      - text: |
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
+      
+---
+
+<style>
+            body {
+              font-family: 'Sarabun', sans-serif;
+              font-size: 1.1em
+            }
+
+            h1 {
+              font-family: 'Sarabun', sans-serif;
+            }
+            .narrative {
+  font-family: 'Sarabun', sans-serif !important;
+}
+            
+</style>
+
+<style>
+  .progress-fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 20px; /* กำหนดความสูง progress bar */
+    z-index: 1050; /* ให้ลอยอยู่เหนือทุกอย่าง */
+  }
+  body {
+    padding-bottom: 28px; /* เผื่อพื้นที่ progress bar ด้านล่าง */
+  }
+</style>
+
+<style>
+  .my-center-table {
+    width: 60%;
+    border-collapse: collapse;
+    margin: auto;
+  }
+  .my-center-table th,
+  .my-center-table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 8px;
+  }
+  .my-center-table select {
+    margin: auto;
+    display: block;
+    width: auto;
+    min-width: 0;
+  }
+</style>
+
+<div class="progress progress-fixed-bottom">
+  <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; font-weight:bold;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    0%
+  </div>
+</div>
+
+# แบบทดสอบตรรกศาสตร์ครั้งที่ 2  (27 คะแนน)
+
+<form id="myForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSf-gcSOsxG6clZkRjXUDb_3kwmHVOb1RmUP7_Q12qYlATCOmQ/formResponse" method="post" target="hidden_iframe">
+
+<!--ปุ่มที่ถูกซ่อน กรอกเวลาเข้าอัตโนมัติ-->
+<input type="hidden" name="entry.964940431" id="entry-timein">
+
+
+
+::: {.callout-warning style="color: red; font-size: 20px;"}
+
+ต้องกรอกรหัสนักเรียน ชื่อ และนามสกุล ให้ถูกนะครับ หากกรอกไม่ถูกจะได้คะแนนจากการทดสอบครั้งนี้เป็น 0 คะแนน นะ 
+
+:::
+
+
+รหัสนักเรียน <input
+    style="flex:0 2 70px; min-width:0; max-width:200px; width:130px; display:inline-block;"
+    class="form-control"
+    name="entry.1799351327"
+    placeholder="เช่น 023143"
+    type="text"
+    required> 
+    
+ม.$4$ ห้อง <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.875563916"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="DA">DA</option>
+    <option value="FC, AE, MS, SE">FC, AE, MS, SE</option>
+    <option value="MD, GM">MD, GM</option>
+    <option value="IM">IM</option>
+  </select>
+
+ชื่อ - นามสกุล (ภาษาไทย) <div style="display: flex; gap: 0.1rem;">
+  <input
+    style="flex:0 2 70px; min-width:0; max-width:300px; width:300px; display:inline-block;"
+    class="form-control"
+    name="entry.1097222767"
+    placeholder="ชื่อ (ไม่ต้องมีคำนำหน้าชื่อ)"
+    type="text"
+    required>
+  <input
+    style="flex:0 2 70px; min-width:0; max-width:300px; width:300px; display:inline-block;"
+    class="form-control"
+    name="entry.547175914"
+    placeholder="นามสกุล"
+    type="text"
+    required>
+</div>
+
+---
+
+1.  กำหนดให้ $p,\ q,\ r$ และ $s$ เป็นประพจน์ จงเติมข้อมูลลงในช่องว่างให้สมบูรณ์
+
+    1.1 $\sim p \rightarrow q \equiv q \lor$ <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.496825495"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+  </select>
+
+    1.2 $\sim (\sim q\land (r \land\sim s)) \equiv \sim r$ <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.942664531"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="and">∧</option>
+    <option value="or">∨</option>
+    <option value="if">→</option>
+    <option value="iff">↔</option>
+  </select> <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.853333403"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="r">r</option>
+    <option value="s">s</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="~r">~r</option>
+    <option value="~s">~s</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+  </select> $\lor q$
+  
+    1.3 
+
+<table class="my-center-table">
+
+<tbody>
+<tr>
+<td> $\sim p \lor\sim(\sim p \lor r)$  </td>
+<td> $\equiv$ </td>
+<td style="white-space: nowrap; text-align: left;"> $\sim p \lor \left(\right.$ <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.152138930"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="r">r</option>
+    <option value="s">s</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="~r">~r</option>
+    <option value="~s">~s</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+  </select><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.598622637"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="and">∧</option>
+    <option value="or">∨</option>
+    <option value="if">→</option>
+    <option value="iff">↔</option>
+  </select> $\sim r )$ </td>
+
+</tr>
+
+<tr>
+<td></td>
+<td> $\equiv$ </td>
+  <td style="white-space: nowrap; text-align: left;"> 
+      $($ <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1277715080"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="r">r</option>
+    <option value="s">s</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="~r">~r</option>
+    <option value="~s">~s</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+  </select><select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.60865700"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="and">∧</option>
+    <option value="or">∨</option>
+    <option value="if">→</option>
+    <option value="iff">↔</option>
+  </select> $\sim p)$ <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.432975948"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="and">∧</option>
+    <option value="or">∨</option>
+    <option value="if">→</option>
+    <option value="iff">↔</option>
+    </select> $($ <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1933531221"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="r">r</option>
+    <option value="s">s</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="~r">~r</option>
+    <option value="~s">~s</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+    </select> $\lor \sim r)$
+  </td>
+
+  
+</tr>
+
+<tr>
+<td></td>
+<td> $\equiv$ </td>
+  <td style="white-space: nowrap; text-align: left;"> 
+    <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1049506604"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="r">r</option>
+    <option value="s">s</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="~r">~r</option>
+    <option value="~s">~s</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+    </select> $\land (\sim p \lor$ <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1983727800"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="r">r</option>
+    <option value="s">s</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="~r">~r</option>
+    <option value="~s">~s</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+    </select> $)$
+  </td>
+
+  
+</tr>
+
+<tr>
+<td></td>
+<td> $\equiv$ </td>
+  <td style="white-space: nowrap; text-align: left;"> 
+    <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.189189614"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="p">p</option>
+    <option value="q">q</option>
+    <option value="r">r</option>
+    <option value="s">s</option>
+    <option value="~p">~p</option>
+    <option value="~q">~q</option>
+    <option value="~r">~r</option>
+    <option value="~s">~s</option>
+    <option value="T">T</option>
+    <option value="F">F</option>
+    </select> $\rightarrow \sim r$
+  </td>
+
+  
+</tr>
+<tbody>
+
+</table>
+
+---
+
+| $A$ | $B$ | $C$ | $D$ | $E$ |
+|:---:|:---:|:---:|:---:|:---:|
+| $T$ | $F$ | $T$ | $T$ | $T$ |
+| $F$ | $T$ | $F$ | $T$ | $T$ |
+| $T$ | $F$ | $T$ | $T$ | $F$ |
+| $F$ | $T$ | $F$ | $T$ | $T$ |
+
+2. กำหนดให้ $A,\ B,\ C$ และ $D$ เป็นประพจน์ จากตารางค่าความจริงที่กำหนดให้ จงตอบคำถามต่อไปนี้
+
+    2.1 ประพจน์คู่ใดสมมูลกัน เพราะเหตุใด
+
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+ก. $A$ และ $B$
+
+ข. $A$ และ $C$
+
+ค. $B$ และ $C$
+
+ง. $B$ และ $D$
+
+<strong>ตอบ</strong> <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.383859170"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="ก">ก.</option>
+    <option value="ข">ข.</option>
+    <option value="ค">ค.</option>
+    <option value="ง">ง.</option>
+    </select>
+
+<textarea
+    style="flex:0 2 70px; min-width:0; max-width:700px; width:400px; display:inline-block;"
+    class="form-control"
+    name="entry.452495089"
+    placeholder="เพราะเหตุใด"
+    required></textarea>
+
+</div>
+
+
+<div style="margin-left: 30px; margin-top: 10px;">
+  2.2 ประพจน์คู่ใดเป็นนิเสธกัน เพราะเหตุใด
+</div>
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+ก. $A$ และ $B$
+
+ข. $A$ และ $C$
+
+ค. $B$ และ $C$
+
+ง. $B$ และ $D$
+
+<strong>ตอบ</strong> <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1769001173"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="ก">ก.</option>
+    <option value="ข">ข.</option>
+    <option value="ค">ค.</option>
+    <option value="ง">ง.</option>
+    </select>
+
+<textarea
+    style="flex:0 2 70px; min-width:0; max-width:700px; width:400px; display:inline-block;"
+    class="form-control"
+    name="entry.1622640476"
+    placeholder="เพราะเหตุใด"
+    required></textarea>
+
+</div>
+
+
+<strong>ตารางเดิม ใส่มาเพื่อที่จะได้ไม่ต้องเลื่อนขึ้นลง</strong>
+
+| $A$ | $B$ | $C$ | $D$ | $E$ |
+|:---:|:---:|:---:|:---:|:---:|
+| $T$ | $F$ | $T$ | $T$ | $T$ |
+| $F$ | $T$ | $F$ | $T$ | $T$ |
+| $T$ | $F$ | $T$ | $T$ | $F$ |
+| $F$ | $T$ | $F$ | $T$ | $T$ |
+
+<div style="margin-left: 30px; margin-top: 10px;">
+  2.3 ประพจน์ใดเป็นสัจนิรันดร์ เพราะเหตุใด
+</div>
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+<strong>ตอบ</strong> <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1523218415"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="C">C</option>
+    <option value="D">D</option>
+    </select>
+
+<textarea
+    style="flex:0 2 70px; min-width:0; max-width:700px; width:400px; display:inline-block;"
+    class="form-control"
+    name="entry.866741257"
+    placeholder="เพราะเหตุใด"
+    required></textarea>
+
+</div>
+
+<div style="margin-left: 30px; margin-top: 10px;">
+  2.4 ประพจน์ $A\leftrightarrow C$ ใดเป็นสัจนิรันดร์หรือไม่ เพราะเหตุใด
+</div>
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+<strong>ตอบ</strong> <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.946365446"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="เป็น">เป็นสัจนิรันดร์</option>
+    <option value="ไม่เป็น">ไม่เป็นสัจนิรันดร์</option>
+    </select>
+
+<textarea
+    style="flex:0 2 70px; min-width:0; max-width:700px; width:400px; display:inline-block;"
+    class="form-control"
+    name="entry.1108731532"
+    placeholder="เพราะเหตุใด"
+    required></textarea>
+
+</div>
+
+<div style="margin-left: 30px; margin-top: 10px;">
+  2.5 ประพจน์ $D\leftrightarrow E$ ใดเป็นสัจนิรันดร์หรือไม่ เพราะเหตุใด
+</div>
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+<strong>ตอบ</strong> <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.757945632"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="เป็น">เป็นสัจนิรันดร์</option>
+    <option value="ไม่เป็น">ไม่เป็นสัจนิรันดร์</option>
+    </select>
+
+<textarea
+    style="flex:0 2 70px; min-width:0; max-width:700px; width:400px; display:inline-block;"
+    class="form-control"
+    name="entry.1741083910"
+    placeholder="เพราะเหตุใด"
+    required></textarea>
+
+</div>
+
+
+---
+
+3. จากการตรวจสอบการเป็นสัจนิรันดร์ โดยการหาข้อขัดแย้ง ประพจน์ $\sim p \rightarrow (p\lor q)$ เป็นสัจนิรันดร์หรือไม่เพราะเหตุใด
+
+<div style="text-align:center;">
+  ![](images/contra.svg)
+</div>
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+<strong>ตอบ</strong> <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.874863567"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="เป็น">เป็นสัจนิรันดร์</option>
+    <option value="ไม่เป็น">ไม่เป็นสัจนิรันดร์</option>
+    </select>
+
+<textarea
+    style="flex:0 2 70px; min-width:0; max-width:700px; width:400px; display:inline-block;"
+    class="form-control"
+    name="entry.1284144680"
+    placeholder="เพราะเหตุใด"
+    required></textarea>
+
+</div>
+
+---
+
+4. จงเติมข้อมูลลงในช่องว่างให้สมบูรณ์ เมื่อกำหนดให้เอกภพสัมพัทธ์ คือ $\{0,\ 1,\ 2\}$
+
+    4.1  $\forall x [2x>0]$ 
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+(จากโจทย์ นักเรียนช่วยระบุให้ด้วยนะครับ)
+
+เมื่อ $x = 0$ ทำให้ประพจน์นี้เป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.2008097592"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+เมื่อ $x = 1$ ทำให้ประพจน์นี้เป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1119023458"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+เมื่อ $x = 2$ ทำให้ประพจน์นี้เป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.2005493250"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+ดังนั้นประพจน์ $\forall x [2x>0]$ เมื่อกำหนดให้เอกภพสัมพัทธ์คือ $\{0,\ 1,\ 2\}$ มีค่าความจริงเป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1486322328"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+</div>
+
+<div style="margin-left: 30px; margin-top: 10px;">
+
+  4.2 $\exists x [x^2-1<0]$ 
+
+</div>
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+(จากโจทย์ นักเรียนช่วยระบุให้ด้วยนะครับ)
+
+เมื่อ $x = 0$ ทำให้ประพจน์นี้เป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1952947347"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+เมื่อ $x = 1$ ทำให้ประพจน์นี้เป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.246472777"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+เมื่อ $x = 2$ ทำให้ประพจน์นี้เป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.1866502821"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+ดังนั้นประพจน์ $\exists x [x^2-1<0]$  เมื่อกำหนดให้เอกภพสัมพัทธ์คือ $\{0,\ 1,\ 2\}$ มีค่าความจริงเป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.911155963"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+</div>
+
+<div style="margin-left: 30px; margin-top: 10px;">
+
+  4.3 $\sim\forall x [2x>0] \rightarrow \exists x [x^2-1<0]$ 
+
+</div>
+
+<div style="margin-left: 60px; margin-top: 10px;">
+
+เมื่อกำหนดให้เอกภพสัมพัทธ์คือ $\{0,\ 1,\ 2\}$ มีค่าความจริงเป็น <select style="flex:1; min-width:0; display:inline-block; width:auto;" class="form-select" name="entry.2138027520"
+  required>
+    <option value="" disabled selected>เลือก</option>
+    <option value="จริง">จริง</option>
+    <option value="เท็จ">เท็จ</option>
+    </select>
+
+</div>
+
+---
+
+<div style="text-align: center;">
+
+🫶🫶🫶 ขอให้โชคดี 🫶🫶🫶
+
+</div>
+
+
+::: {.callout-warning style="color: red; font-size: 1.5em;"}
+
+ตรวจสอบการกรอกข้อมูลของตนเองก่อนกดส่งนะครับ หากส่งไปแล้วจะไม่สามารถแก้ไขได้นะ
+
+:::
+
+
+<div style="display: flex; justify-content: center; margin: 1em 0;">
+  <button class="btn btn-primary" type="submit">ส่งคำตอบ</button>
+</div>
+
+<!-- ซ่อนหน้านี้ เมื่อกดส่งแล้่ว-->
+</form>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+
+<div id="submit-message" style="display:none; color:blue; font-weight:bold; margin-top:1em;">
+  เราได้บันทึกคำตอบของคุณไว้แล้ว<br>
+
+  สามารถเข้าไปตรวจสอบผลการส่งได้ที่นี่ <a href="https://script.google.com/macros/s/AKfycbwqqoGTBz52VrgJSFP8iDkJOUaFnheO9nyLm1FaJrKZ71wGtNvm1GwPuPkqIh3p6Oz2/exec" target="_blank">คลิก</a>
+  <br><br>
+  <!-- ปุ่มลิงก์ -->
+  <a href="index.qmd" style="display:inline-block; margin-right:1em; padding:0.5em 1em; background:#007bff; color:#fff; text-decoration:none; border-radius:5px;">กลับหน้าหลัก</a> 
+  
+  <br> หากจะส่งคำตอบเดิมอีกครั้ง ห้ามกด reload หากกด reload จะต้องทำแบบทดสอบใหม่อีกครั้ง </br>
+  
+  <button id="resubmit-btn" class="btn btn-warning" style="margin-top:1em;">ส่งคำตอบเดิมอีกครั้ง</button>
+</div>
+
+<!--
+<script>
+  document.getElementById('myForm').onsubmit = function() {
+    document.getElementById('myForm').style.display = 'none';
+    document.getElementById('submit-message').style.display = 'block';
+    return true;
+  };
+</script>
+-->
+
+<script>
+
+document.getElementById('myForm').onsubmit = function(e) {
+  // แสดงกล่องยืนยัน
+  const confirmed = window.confirm("คุณต้องการส่งคำตอบใช่หรือไม่?\n\nหากส่งแล้วจะไม่สามารถแก้ไขได้");
+  if (confirmed) {
+    // ถ้ากดยืนยัน ส่งฟอร์มและแสดงข้อความ
+    document.getElementById('myForm').style.display = 'none';
+    document.getElementById('submit-message').style.display = 'block';
+    return true;
+  } else {
+    // ถ้าไม่ยืนยัน ไม่ส่งฟอร์ม
+    e.preventDefault();
+    return false;
+  }
+};
+
+</script>
+
+<!--ถ้าจะตั้งเวลาปิดรับฟอร์ม-->
+
+<!--
+
+
+<script>
+  // กำหนดเวลาปิดรับ (เช่น 2025-05-29 17:00:00 +07:00)
+  const closeTime = new Date("2025-06-28T13:00:00+07:00");
+
+  document.getElementById('myForm').onsubmit = function(e) {
+    const now = new Date();
+    if (now > closeTime) {
+      // ถ้าเลยเวลาปิดรับ
+      e.preventDefault(); // ไม่ให้ส่งฟอร์ม
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('submit-message').style.display = 'block';
+      document.getElementById('submit-message').innerHTML = "ขออภัย ฟอร์มนี้ปิดรับคำตอบแล้ว";
+      return false;
+    } else {
+      // ยังไม่หมดเวลา ส่งฟอร์มตามปกติ
+      document.getElementById('myForm').style.display = 'none';
+      document.getElementById('submit-message').style.display = 'block';
+      // ข้อความที่แสดงหลังส่งฟอร์ม
+      document.getElementById('submit-message').innerHTML = "เราได้บันทึกคำตอบของคุณไว้แล้ว<br>
+      คุณสามารถกดย้อนกลับ แล้วเข้ามาที่เมนูเดิม <br>
+      เพื่อทบทวนและส่งคำตอบเพิ่มเติมได้ ";
+      return true;
+    }
+  };
+</script>
+-->
+
+
+
+
+
+<!-- progress bar-->
+<script>
+  // ระบุ id ของฟอร์ม
+  const form = document.getElementById('myForm');
+  // เลือก input และ select ทั้งหมดในฟอร์ม (ที่ต้องกรอก)
+  const requiredFields = form.querySelectorAll('input[required], select[required]');
+  const progressBar = document.getElementById('progress-bar');
+
+  function updateProgressBar() {
+    let filled = 0;
+    requiredFields.forEach(field => {
+      // สำหรับ select ให้เช็คว่า value ไม่ใช่ค่าว่าง
+      if (
+        (field.tagName === "SELECT" && field.value !== "" && field.value !== null) ||
+        (field.tagName === "INPUT" && field.value.trim() !== "")
+      ) {
+        filled += 1;
+      }
+    });
+    const percent = Math.round((filled / requiredFields.length) * 100);
+    progressBar.style.width = percent + "%";
+    progressBar.setAttribute('aria-valuenow', percent);
+    progressBar.textContent = percent + "%";
+    // เพิ่มสีเมื่อครบ 100%
+    if(percent === 100){
+      progressBar.classList.add("bg-success");
+    } else {
+      progressBar.classList.remove("bg-success");
+    }
+  }
+
+  // อัปเดต progress ทุกครั้งที่กรอกข้อมูล
+  requiredFields.forEach(field => {
+    field.addEventListener('input', updateProgressBar);
+    field.addEventListener('change', updateProgressBar);
+  });
+
+  // เรียกครั้งแรกเมื่อโหลดหน้า
+  updateProgressBar();
+</script>
+
+
+<!--เอาไว้ใช้เวลาอยากได้ว่าเริ่มทำกี่โมง-->
+<!--ใช้กับ input id="entry-timein"-->
+<!--อันนี้ format เวลาไม่ดี-->
+<!--
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  const now = new Date().toISOString();
+  document.getElementById('entry-timein').value = now;
+});
+</script>
+-->
+
+<!-- format time ตรง google sheet-->
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  const now = new Date();
+
+  // ดึงค่าแต่ละส่วน
+  const day = now.getDate();
+  const month = now.getMonth() + 1; // เดือนใน JS เริ่มที่ 0
+  const year = now.getFullYear();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  const second = now.getSeconds();
+
+  // เติม 0 ข้างหน้าถ้าจำเป็น
+  const pad = n => n.toString().padStart(2, '0');
+
+  // สร้าง string ในรูปแบบเดียวกับ Google Form
+  const formatted = `${pad(day)}/${pad(month)}/${year} ${pad(hour)}:${pad(minute)}:${pad(second)}`;
+
+  document.getElementById('entry-timein').value = formatted;
+});
+
+</script>
+
+
+<script>
+let lastFormData = null;
+
+document.getElementById('myForm').onsubmit = function(e) {
+  const confirmed = window.confirm("คุณต้องการส่งคำตอบใช่หรือไม่?\n\nหากส่งแล้วจะไม่สามารถแก้ไขได้");
+  if (confirmed) {
+    const form = document.getElementById('myForm');
+    lastFormData = new FormData(form);
+    form.style.display = 'none';
+    document.getElementById('submit-message').style.display = 'block';
+    return true;
+  } else {
+    e.preventDefault();
+    return false;
+  }
+};
+
+document.getElementById('resubmit-btn').onclick = function(e) {
+  e.preventDefault();
+  if (!lastFormData) {
+    alert("ไม่พบข้อมูลเดิม กรุณากรอกใหม่และส่งอีกครั้ง");
+    return;
+  }
+  const form = document.createElement('form');
+  form.action = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSf-gcSOsxG6clZkRjXUDb_3kwmHVOb1RmUP7_Q12qYlATCOmQ/formResponse";
+  form.method = "post";
+  form.target = "hidden_iframe";
+  form.style.display = "none";
+
+  for (const [name, value] of lastFormData.entries()) {
+    const input = document.createElement('input');
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+
+  alert("ส่งคำตอบเดิมอีกครั้งเรียบร้อยแล้ว!");
+};
+</script>
